@@ -1,9 +1,12 @@
 package guru.springframework.spring5webapp.bootstrap;
 
+import guru.springframework.spring5webapp.domain.Address;
 import guru.springframework.spring5webapp.domain.Author;
 import guru.springframework.spring5webapp.domain.Book;
+import guru.springframework.spring5webapp.domain.Publisher;
 import guru.springframework.spring5webapp.repositories.AuthorRepository;
 import guru.springframework.spring5webapp.repositories.BookRepository;
+import guru.springframework.spring5webapp.repositories.PublisherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -16,10 +19,13 @@ public class BootStrapData implements CommandLineRunner {
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepository,
+                         PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -40,9 +46,12 @@ public class BootStrapData implements CommandLineRunner {
 
         authorRepository.save(rod);
         bookRepository.save(rodBook);
-        System.out.println("SOUT TEST");
         LOGGER.info("Started in Bootstrap");
-        LOGGER.info(String.format("No of books: %d", bookRepository.count()));
+        LOGGER.info("No of books: {}", bookRepository.count());
+
+        Publisher publisher = new Publisher("Sample Publisher", new Address("Address Street 1","Warsaw","Poland","00-000"));
+        publisherRepository.save(publisher);
+        LOGGER.info("No of publishers: {}", publisherRepository.count());
 
     }
 }
