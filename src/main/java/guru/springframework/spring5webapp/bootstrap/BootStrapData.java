@@ -50,8 +50,16 @@ public class BootStrapData implements CommandLineRunner {
         LOGGER.info("No of books: {}", bookRepository.count());
 
         Publisher publisher = new Publisher("Sample Publisher", new Address("Address Street 1","Warsaw","Poland","00-000"));
+        publisher.getBooks().add(ericBook);
+        publisher.getBooks().add(rodBook);
         publisherRepository.save(publisher);
+
+        rodBook.setPublisher(publisher);
+        ericBook.setPublisher(publisher);
+        bookRepository.save(ericBook);
+        bookRepository.save(rodBook);
         LOGGER.info("No of publishers: {}", publisherRepository.count());
+        LOGGER.info("No of books for publisher: {}", publisher.getBooks().size());
 
     }
 }

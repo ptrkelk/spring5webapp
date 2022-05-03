@@ -7,7 +7,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,6 +26,11 @@ public class Publisher {
 
     @Embedded
     private Address address;
+
+    @OneToMany()
+    @JoinColumn(name = "publisher_id")
+    @ToString.Exclude
+    private Set<Book> books = new HashSet<>();
 
     public Publisher(String name, Address address) {
         this.name = name;
